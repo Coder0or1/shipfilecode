@@ -17,6 +17,7 @@ print("----------------------------------------------")
 print("功能1转换：将转换的MD文件放入MD文件目录中")
 print("功能2提取文件：输出去除标签后法规文件的MD文件路径")
 print("功能3对md文件进行修改：对要修改的md文件进行一些修改")
+print("功能4对md文件进行修改时：元信息的输入，保存为Json文件")
 print("请输入对应的功能数字，进入对应功能。")
 print("输入其它任意数字则退出该系统。")
 print("----------------------------------------------")
@@ -26,7 +27,7 @@ loge = True
 
 while True:
     button = int(input("如果继续使用该系统，请输入功能数字："))
-    if button == 1 or button == 2 or button == 3:
+    if button == 1 or button == 2 or button == 3 or button == 4:
         loge = True
     else:
         break
@@ -124,6 +125,29 @@ while True:
                 if answer == "是":
                     process3 = subprocess.Popen(["C:\\Program Files\\Typora\\Typora.exe", md_file_path3])
 
+                else:
+                    print("请在弹框中选择正确md的文件路径")
+
+                break
+            # 退出二层while时的条件，“进入如果继续使用该系统，请输入功能数字：”的选择
+            break
+
+        if button == 4:
+            print("请在弹框中选择要对md文件进行一些修改的文件路径：")
+
+            while True:
+                # 弹出框选择md的文件的路径
+                root5 = tk.Tk()
+                root5.withdraw()
+                md_file_path4 = filedialog.askopenfilename()
+
+                print("md的文件地址为：" + md_file_path4)
+
+                answer = input("你当前所选择的 “md文件”  “是否为” 该文件路径下的文件吗？请输入 “是或者否” ：")
+                if answer == "是":
+                    json_data = DocumentToolsClass.get_key_value_pairs()
+                    json_path = DocumentToolsClass.Create_file_directory_MD_Json(md_file_path4)
+                    DocumentToolsClass.save_to_json_file(json_data , json_path)
                 else:
                     print("请在弹框中选择正确md的文件路径")
 

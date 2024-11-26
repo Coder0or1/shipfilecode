@@ -4,7 +4,7 @@ import re
 # 对文件的高级操作，复制移动等
 import shutil
 
-
+import json
 class DocumentToolsClass:
     '''该函数主要将文档里面的用[]标签包裹的校对时添加信息内容进行删除'''
 
@@ -85,5 +85,40 @@ class DocumentToolsClass:
         os.makedirs(dst_file, exist_ok=True)
 
         shutil.copy(src_file, dst_file_name)
+
+        return dst_file_name
+
+    @staticmethod
+    def get_key_value_pairs():
+        key_value_pairs = {}
+        while True:
+            key = input("请输入键（输入'quit'结束）: ")
+            if key.lower() == 'quit':
+                break
+            value = input(f"请输入对应的值（键为 {key}）: ")
+            key_value_pairs[key] = value
+
+        return key_value_pairs
+
+    @staticmethod
+    def save_to_json_file(data, file_path):
+        try:
+            with open(file_path, 'w') as json_file:
+                json.dump(data, json_file)
+                print(f"数据已成功写入 {file_path}")
+        except Exception as e:
+            print(f"写入文件时出现错误: {e}")
+
+    @staticmethod
+    def Create_file_directory_MD_Json(md_path):
+        md_name_with_extension = os.path.basename(md_path)
+        md_name, md_extension = os.path.splitext(md_name_with_extension)
+
+        # 使用os.path.join来拼接路径，自动使用正确的路径分隔符（在Windows下是\\）
+        dst_file = os.path.join(os.path.dirname(md_path), 'md_Json')
+        os.makedirs(dst_file, exist_ok=True)
+
+        # 同样使用os.path.join来拼接文件名到目录路径上
+        dst_file_name = os.path.join(dst_file, md_name + '.json')
 
         return dst_file_name
